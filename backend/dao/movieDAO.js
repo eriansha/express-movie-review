@@ -17,13 +17,13 @@ export default class MoviewDAO {
   }
 
   static async getMoviews({
-    filter = null,
+    filters = null,
     page = 0,
     moviesPerPage = 20
   } = {}) {
     let query
 
-    if (filter) {
+    if (filters) {
       // Similar to filters.hasOwnProperty('title')
       if ("title" in filters) {
         /**
