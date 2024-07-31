@@ -19,7 +19,7 @@ export default class MoviewDAO {
   static async getMoviews({
     filter = null,
     page = 0,
-    moviewPerPage = 20
+    moviesPerPage = 20
   } = {}) {
     let query
 
@@ -42,8 +42,8 @@ export default class MoviewDAO {
     let cursor
     try {
       cursor = await movies.find(query)
-        .limit(moviewPerPage)
-        .skip(moviewPerPage * page)
+        .limit(moviesPerPage)
+        .skip(moviesPerPage * page)
 
       const moviesList = await cursor.toArray()
       const totalNumMovies = await movies.countDocuments(query)
