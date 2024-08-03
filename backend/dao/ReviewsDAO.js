@@ -22,7 +22,7 @@ export default class ReviewsDAO {
     try {
       const reviewDoc = {
         name: user.name,
-        user_id: user.__id,
+        user_id: user._id,
         date: date,
         review: review,
         movie_id: new ObjectId(movieId)
@@ -40,7 +40,7 @@ export default class ReviewsDAO {
       const updateResponse = await reviews.updateOne(
         {
           user_id: userId,
-          __id: new ObjectId(reviewId)
+          _id: new ObjectId(reviewId)
         },{
           $set: {
             review: review,
