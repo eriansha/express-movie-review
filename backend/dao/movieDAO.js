@@ -1,5 +1,8 @@
 // Data access object (DAO)
 
+import mongodb from 'mongodb'
+
+const ObjectId = mongodb.ObjectId
 let movies
 
 export default class MoviewDAO {
@@ -57,6 +60,40 @@ export default class MoviewDAO {
         moviesList: [],
         totalNumMovies: 0
       }
+    }
+  }
+
+  static async getMovieById(id) {
+    try {
+      return await movies.aggregate([
+        {
+          $match: {
+            _id: new ObjectId(id),
+          }
+        },
+        {
+          $lookup: {
+            from: 'reviews',
+            localField: '_id',
+            foreignField: 'movie_id',
+            as: 'reviews',
+          }
+        }
+      ]).next()
+    } catch (e) {
+      console.error(`something went wrong in getMovieById: ${e}`)
+      throw e
+    }
+  }
+
+  static async getRatings() {
+    let ratings = []
+    try {
+      ratings = await movies.distinct("rated")
+      return ratings
+    } catch (e) {
+      console.error(`unable to get ratings, ${e}`)
+      return ratings
     }
   }
 }
